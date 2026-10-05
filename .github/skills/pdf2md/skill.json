@@ -1,0 +1,23 @@
+{
+  "name": "pdf2md",
+  "description": "Convert PDF to Markdown with OCR using the pdf2md container",
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "input_file": {
+        "type": "string",
+        "description": "Path to the input PDF file (relative to workspace or absolute)"
+      },
+      "output_file": {
+        "type": "string",
+        "description": "Path for the output Markdown file (optional, defaults to input filename with .md extension)"
+      }
+    },
+    "required": ["input_file"]
+  },
+  "automation": {
+    "kind": "currentSession",
+    "prompt": "Run the pdf2md container to convert the PDF file to markdown with OCR. Input: {{input_file}}. Output: {{output_file}}. Use docker run --rm -v ${workspaceFolder}:/data pdf2md:latest {{input_file}} [-o {{output_file}}].",
+    "script": "docker run --rm -v ${workspaceFolder}:/data pdf2md:latest {{input_file}} {{#if output_file}}-o {{output_file}}{{/if}}"
+  }
+}
